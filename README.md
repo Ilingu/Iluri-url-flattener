@@ -1,34 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# [Iluri] || Basic Url flattener 🌐
 
-## Getting Started
+#### **Iluri is my personal Url Shortener because all the others either pricey or non persistent**
 
-First, run the development server:
+#### _Feel free to use it, this project cost 0 pennies_ 💰
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+[![SITE](https://forthebadge.com/images/badges/check-it-out.svg)](https://iluri.vercel.app)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Site Info
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+[![SITE](https://img.shields.io/maintenance/yes/2022)](https://iluri.vercel.app)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### Up ⬆ Or Down ⬇
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+[![SITE](https://img.shields.io/website-up-down-green-red/https/iluri.vercel.app.svg)](https://iluri.vercel.app/)  
+[![SITE](https://therealsujitk-vercel-badge.vercel.app/?app=iluri)](https://vercel.com/)
 
-## Learn More
+### Release
 
-To learn more about Next.js, take a look at the following resources:
+[![SITE](https://img.shields.io/badge/ACK%20release-rc%2012-blue)](https://iluri.vercel.app/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technologies
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+[![SITE](https://img.shields.io/badge/dependencies-up%20to%20date-green)](https://www.npmjs.com/)  
+[![SITE](https://img.shields.io/static/v1?label=MADE%20WITH&message=NextJS&color=61DBFB)](https://nextjs.org/)
 
-## Deploy on Vercel
+## Compatibilities
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[![SITE](https://img.shields.io/static/v1?label=Compatible%20With&message=all&color=C13B3A)](https://iluri.vercel.app/)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Uninteresting stuff
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) and deployed with [`Vercel`](https://vercel.com/) ⚛.
+
+This App use [MongoDB Atlas](https://mongodb.com/) for the Database and [Prisma](https://prisma.io) for the ORM 🔒
+
+Authentification is handled by [NextAuth](https://next-auth.js.org/) 🔰
+
+2022 [Ilingu](https://github.com/Ilingu)  
+[![SITE](https://img.shields.io/badge/Licence-MIT-yellow)](https://github.com/Ilingu/ack_v2/blob/main/LICENSE)
