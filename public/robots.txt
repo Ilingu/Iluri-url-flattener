@@ -1,0 +1,8 @@
+# Groupe 1
+User-agent: Googlebot
+Disallow: /IMG/*
+Disallow: /api
+
+# Groupe 2
+User-agent: *
+Allow: /
