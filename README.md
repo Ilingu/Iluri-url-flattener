@@ -17,7 +17,7 @@
 
 ### Release
 
-[![SITE](https://img.shields.io/badge/ACK%20release-rc%2012-blue)](https://iluri.vercel.app/)
+[![SITE](https://img.shields.io/badge/Iluri%20release-alpha-blue)](https://iluri.vercel.app/)
 
 ## Technologies
 

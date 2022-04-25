@@ -9,19 +9,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Urls {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  code     String   @unique @default(uuid())
+  url      String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  authorId String
+
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
 model Account {
-  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.String
-  access_token       String?  @db.String
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.String
-  session_state      String?
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -44,10 +55,11 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Urls          Urls[]
 }
 
 model VerificationToken {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
   token      String   @unique
   expires    DateTime

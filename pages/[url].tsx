@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 
-const HomePage: NextPage = () => {
+const UrlPage: NextPage = () => {
   return <article className="page w-full"></article>;
 };
 
-export default HomePage;
+export default UrlPage;
