@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import AuthCheck from "../components/Auth/AuthCheck";
 
-const HomePage: NextPage = () => {
+const AccountPage: NextPage = () => {
   return (
     <AuthCheck>
       <article className="page w-full"></article>
@@ -9,4 +9,4 @@ const HomePage: NextPage = () => {
   );
 };
 
-export default HomePage;
+export default AccountPage;

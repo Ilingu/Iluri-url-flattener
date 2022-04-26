@@ -11,6 +11,19 @@
   }
 }
 
+// Colors
+$main-50: #f9ffe6;
+$main-100: #f1ffc8;
+$main-200: #e3fe98;
+$main-300: #ccfa5c;
+$main-400: #b5f02b;
+$main-500: #a2e70d;
+$main-600: #73ab05;
+$main-700: #588209;
+$main-800: #47660e;
+$main-900: #3b5611;
+$main-dark: #24330a;
+
 /* Font */
 @font-face {
   font-family: "Origami Mommy";
@@ -18,20 +31,13 @@
   font-weight: 400;
   font-style: normal;
 }
-
+// Globals
 * {
   font-family: Courier, monospace;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-::-moz-selection {
-  color: #f9ffe6;
-  background: #24330a;
+  box-sizing: border-box;
 }
 
 ::selection {
-  color: #f9ffe6;
-  background: #24330a;
+  color: $main-50;
+  background: $main-dark;
 }
-/*# sourceMappingURL=globals.css.map */

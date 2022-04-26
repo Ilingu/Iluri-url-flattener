@@ -54,7 +54,7 @@ class MyDocument extends Document {
             content="https://ack.vercel.app/IconAck192.png"
           /> */}
         </Head>
-        <body className="bg-primary-50">
+        <body className="bg-main-50">
           <noscript
             style={{
               fontSize: "40px",
