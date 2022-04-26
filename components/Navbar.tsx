@@ -1,9 +1,13 @@
 import Link from "next/link";
 import React, { FC } from "react";
 import Image from "next/image";
+// Auth
 import AuthCheck from "./Auth/AuthCheck";
+import { useSession } from "next-auth/react";
 
 const Navbar: FC = () => {
+  const { data: session } = useSession();
+
   return (
     <nav className="flex h-20 w-full items-center justify-between bg-gradient-to-r from-main-600 to-main-700 px-5 text-main-50">
       <Link href="/">
@@ -15,9 +19,7 @@ const Navbar: FC = () => {
             width={64}
             height={64}
           />
-          <span
-            className={`text-primary-lightest font-["Origami_Mommy"] text-xl`}
-          >
+          <span className={`font-["Origami_Mommy"] text-xl`}>
             URL Flattener<span className="hidden sm:inline">🔗</span>
           </span>
         </a>
@@ -34,7 +36,15 @@ const Navbar: FC = () => {
           </Link>
         }
       >
-        <p>Connected</p>
+        <Link href="/account" passHref>
+          <Image
+            src={session?.user?.image}
+            alt="User Avatar"
+            width={64}
+            height={64}
+            className="cursor-pointer rounded-md transition-all hover:opacity-75"
+          />
+        </Link>
       </AuthCheck>
     </nav>
   );

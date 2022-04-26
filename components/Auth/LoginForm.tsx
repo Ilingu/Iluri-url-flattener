@@ -1,13 +1,15 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import Image from "next/image";
+import { signIn, signOut } from "next-auth/react";
 // UI
 import AuthCheck from "./AuthCheck";
 import {
   FaEnvelope,
   FaGithub,
   FaGoogle,
-  FaRegistered,
   FaSignInAlt,
+  FaSignOutAlt,
+  FaUser,
 } from "react-icons/fa";
 
 // Types
@@ -62,49 +64,50 @@ const AlreadyConnected = () => (
     <HeaderContainer>
       <h1 className="text-2xl font-bold tracking-wider">Already Connected!</h1>
     </HeaderContainer>
-    <div className="row-span-4">s</div>
+    <div className="row-span-4">
+      <button
+        onClick={() => signOut()}
+        className="rounded-md bg-red-500 p-2 text-xl font-bold transition-all active:ring-1 active:ring-red-800"
+      >
+        <FaSignOutAlt className="icon" /> SignOut
+      </button>
+    </div>
   </BoxContainer>
 );
 
-const NotConnected = () => {
-  const [AuthMetod, setAuthMetod] = useState<AuthMetodVal>("signin");
-
-  return (
-    <BoxContainer>
-      <HeaderContainer>
-        <h1 className="text-2xl font-bold tracking-wider">
-          {AuthMetod === "signin" ? (
-            <FaSignInAlt className="icon" />
-          ) : (
-            <FaRegistered className="icon" />
-          )}{" "}
-          {AuthMetod}
-        </h1>
-      </HeaderContainer>
-      <div className="row-span-4 flex w-full flex-col items-center">
-        <h1 className="mb-2 flex-[0.3]">Choose a Providers:</h1>
-        <div className="grid w-1/2 grid-rows-3 gap-y-1">
-          <button className="rounded bg-gray-900 py-1 text-lg font-semibold">
-            <FaGithub className="icon" /> Github
-          </button>
-          <button
-            disabled
-            title="Provider not configured yet 😓"
-            className="rounded bg-gray-300 text-lg font-semibold text-main-900"
-          >
-            <FaGoogle className="icon" /> Google
-          </button>
-          <button
-            disabled
-            title="Provider not configured yet 😓"
-            className="rounded bg-gray-300 text-lg font-semibold text-main-900"
-          >
-            <FaEnvelope className="icon" /> Email
-          </button>
-        </div>
+const NotConnected = () => (
+  <BoxContainer>
+    <HeaderContainer>
+      <h1 className="text-2xl font-bold tracking-wider">
+        <FaSignInAlt className="icon" /> Join Iluri
+      </h1>
+    </HeaderContainer>
+    <div className="row-span-4 flex w-full flex-col items-center">
+      <h1 className="mb-2 flex-[0.3]">Choose a Providers:</h1>
+      <div className="grid w-1/2 grid-rows-3 gap-y-1">
+        <button
+          onClick={() => signIn()}
+          className="rounded bg-gray-900 py-1 text-lg font-semibold"
+        >
+          <FaGithub className="icon" /> Github
+        </button>
+        <button
+          disabled
+          title="Provider not configured yet 😓"
+          className="rounded bg-gray-300 text-lg font-semibold text-main-900"
+        >
+          <FaGoogle className="icon" /> Google
+        </button>
+        <button
+          disabled
+          title="Provider not configured yet 😓"
+          className="rounded bg-gray-300 text-lg font-semibold text-main-900"
+        >
+          <FaEnvelope className="icon" /> Email
+        </button>
       </div>
-    </BoxContainer>
-  );
-};
+    </div>
+  </BoxContainer>
+);
 
 export default LoginForm;
