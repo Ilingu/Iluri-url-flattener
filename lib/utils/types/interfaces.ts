@@ -1,4 +1,4 @@
-import { NextApiResponse } from "next";
+import { HTTP_METHODS } from "./types";
 
 export interface FunctionJobSuccess<T = any> {
   success: boolean;
@@ -12,8 +12,22 @@ export interface APIResponse<T = any> {
 }
 
 export interface AnswerToReqArgsShape {
-  res: NextApiResponse;
   success: boolean;
   code?: number;
   data?: string | object;
+}
+
+export interface ApiCallArgsShape {
+  uri: string;
+  method: HTTP_METHODS;
+  body?: object;
+}
+
+export interface UrlsShape {
+  id: string;
+  code: string;
+  url: string;
+  createAt: string;
+  updateAt: string;
+  userId: string;
 }

@@ -15,6 +15,8 @@ import { IsURL } from "../lib/utils/UtilsFunc";
 import { AiFillWarning } from "react-icons/ai";
 import { FaCompressAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { ApiCall, copyToClipboard } from "../lib/utils/ClientFuncs";
+import { UrlsShape } from "../lib/utils/types/interfaces";
 
 const HomePage: NextPage = () => {
   const AnimationElement = useRef<HTMLSpanElement>();
@@ -80,6 +82,7 @@ function FormShortenUrl() {
 
   const [UrlToShorten, setUrlToShorten] = useState("");
   const [BadUrl, setBadUrl] = useState(false);
+  const [UrlCode, setUrlCode] = useState("");
 
   const InputElement = useRef<HTMLInputElement>();
 
@@ -87,11 +90,23 @@ function FormShortenUrl() {
     InputElement.current?.focus();
   }, []);
 
-  const ShortenUrl = (evt: FormEvent<HTMLFormElement>) => {
+  const ShortenUrl = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const SecureUrl = encodeURI(UrlToShorten?.trim() || "");
     if (SecureUrl.length < 8 || SecureUrl.length > 1000 || !IsURL(SecureUrl))
       return toast.error("Invalid URL");
+
+    const ShortenUrlResponse = await ApiCall({
+      uri: "/api/urls/new",
+      method: "POST",
+      body: { url: SecureUrl },
+    });
+    if (!ShortenUrlResponse.succeed || !ShortenUrlResponse?.data)
+      return toast.error("Server Error, couldn't reach service.");
+
+    const { code } = ShortenUrlResponse.data as UrlsShape;
+    setUrlCode(`${window.location.host}/${code}`);
+    toast.success(`Url stored, here your code: ${code}`);
   };
 
   const HandleChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -139,6 +154,20 @@ function FormShortenUrl() {
         {BadUrl && (
           <p className="col-span-6 text-center font-semibold text-red-500">
             <AiFillWarning className="icon" /> Invalid Url
+          </p>
+        )}
+        {UrlCode.length > 0 && (
+          <p className="col-span-6 mt-5 text-center text-xl text-main-800">
+            Your shortened URL: <br />
+            <span
+              className="cursor-pointer select-all text-3xl font-bold text-emerald-600 transition-all hover:text-main-700 hover:underline hover:decoration-green-500"
+              onClick={() => {
+                copyToClipboard(UrlCode);
+                toast.success("Url Copied into Clipboard");
+              }}
+            >
+              {UrlCode}
+            </span>
           </p>
         )}
       </form>

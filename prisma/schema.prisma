@@ -11,7 +11,7 @@ datasource db {
 
 model Urls {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  code     String   @unique @default(uuid())
+  code     String   @unique
   url      String
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt

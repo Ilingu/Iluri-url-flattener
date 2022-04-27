@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import { Return404 } from "../../lib/utils/UtilsFunc";
+import { Return404 } from "../../lib/utils/ClientFuncs";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return { redirect: { destination: "/" }, props: {} };

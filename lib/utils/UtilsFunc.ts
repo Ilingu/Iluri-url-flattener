@@ -1,13 +1,4 @@
 /**
- * @returns 404's Page
- */
-export const Return404 = (): {
-  notFound: true;
-} => ({
-  notFound: true,
-});
-
-/**
  * Check If it's a valid HTTP URL (https://www.example.com)
  * @param {URL} urlToCheck
  * @returns {boolean} `true` -- if it's a valid HTTP url

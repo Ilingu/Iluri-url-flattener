@@ -1,4 +1,5 @@
-import { NextApiRequest } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
+import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import {
   AnswerToReqArgsShape,
@@ -13,12 +14,12 @@ import {
  */
 export const Authentificate = async (
   req: NextApiRequest
-): Promise<FunctionJobSuccess<string>> => {
+): Promise<FunctionJobSuccess<string | Session>> => {
   try {
     const session = await getSession({ req });
     return {
       success: !!session,
-      data: `${!session && "Cannot Authenticate User/Try"}`,
+      data: session,
     };
   } catch (err) {
     return { success: false, data: "Cannot Authenticate User/Catch" };
@@ -52,9 +53,8 @@ const HandleError = (data?: string, code?: number): APIResponse<string> => {
 
 /**
  * Response To The Api Request with a bunch of options
+ * @param {NextApiResponse} res The Response Handler of Next `NextApiResponse`
  * @param {AnswerToReqArgsShape} Args
- *
- * `res`: The Response Handler of Next `NextApiResponse`
  *
  * `success`: If the request failed or succeed `boolean`
  *
@@ -62,15 +62,16 @@ const HandleError = (data?: string, code?: number): APIResponse<string> => {
  *
  * `data`: Additional Data to return `string | object`
  */
-export const AnswerToReq = ({
-  res,
-  success,
-  code,
-  data,
-}: AnswerToReqArgsShape) => {
+export const AnswerToReq = (
+  res: NextApiResponse,
+  { success, code, data }: AnswerToReqArgsShape
+) => {
   const ResponseObj: APIResponse<object | string> = success
     ? HandleSuccess(data as object, code)
     : HandleError(data as string, code);
 
-  return res.status(code).json(ResponseObj);
+  let CodeToSend: number = 500;
+  if (code) CodeToSend = code;
+  if (success && !code) CodeToSend = 200;
+  return res.status(CodeToSend).json(ResponseObj);
 };
