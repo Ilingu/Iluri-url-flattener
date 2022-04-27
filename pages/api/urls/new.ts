@@ -35,9 +35,8 @@ const APINewShortedURL = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const { success: AuthSuccess, data: session } = await Authentificate(req);
-    console.log(AuthSuccess);
     if (!AuthSuccess)
-      return AnswerToReq(res, { success: false, data: session }); // ❌
+      return AnswerToReq(res, { success: false, data: "User Not Connected" }); // ❌
 
     const {
       user: { email },
