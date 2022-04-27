@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import "../styles/globals.css";
 import Navbar from "../components/Navbar";
 import MetaTags from "../components/Metatags";
+import { Toaster } from "react-hot-toast";
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
@@ -13,6 +14,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <Navbar />
         <Component {...pageProps} />
       </main>
+      <Toaster position="top-right" />
     </SessionProvider>
   );
 }

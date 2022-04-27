@@ -19,9 +19,7 @@ const Navbar: FC = () => {
             width={64}
             height={64}
           />
-          <span className={`font-["Origami_Mommy"] text-xl`}>
-            URL Flattener<span className="hidden sm:inline">🔗</span>
-          </span>
+          <span className={`font-["Origami_Mommy"] text-xl`}>Iluri</span>
         </a>
       </Link>
       <AuthCheck
@@ -29,7 +27,7 @@ const Navbar: FC = () => {
           <Link href="/login">
             <a
               className="rounded-md bg-main-400 p-2 text-lg font-semibold text-main-800 shadow-lg 
-              shadow-main-900 transition-all hover:font-bold hover:text-main-900 focus:ring-2 focus:ring-main-50"
+              shadow-main-900 transition-all hover:font-bold hover:text-main-900 focus:ring-2 focus:ring-amber-400"
             >
               Get Started!
             </a>

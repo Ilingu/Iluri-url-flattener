@@ -1,12 +1,27 @@
 import { NextPage } from "next";
-import { useEffect, useRef } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
+// Auth
 import AuthCheck from "../components/Auth/AuthCheck";
+// Funcs
+import { IsURL } from "../lib/utils/UtilsFunc";
+// Icons
+import { AiFillWarning } from "react-icons/ai";
+import { FaCompressAlt } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const HomePage: NextPage = () => {
   const AnimationElement = useRef<HTMLSpanElement>();
 
   const RenderElement = (textToDisplay: string) => {
-    AnimationElement.current.textContent = textToDisplay;
+    if (AnimationElement.current)
+      AnimationElement.current.textContent = textToDisplay;
   };
 
   useEffect(() => {
@@ -41,20 +56,92 @@ const HomePage: NextPage = () => {
   return (
     <AuthCheck>
       <article className="page w-full">
-        <header>
+        <header className="text-center md:text-justify">
           <h1
-            className={`min-w-[640px] font-["Origami_Mommy"] text-4xl font-semibold text-main-900`}
+            className={`min-h-[80px] min-w-[640px] font-["Origami_Mommy"] text-4xl font-semibold text-main-900`}
           >
-            ILURI - URL{" "}
+            ILURI - URL <br className="block md:hidden" />
             <span
               className={`font-["Origami_Mommy"] text-4xl font-semibold text-main-900`}
               ref={AnimationElement}
             ></span>
           </h1>
         </header>
+        <FormShortenUrl />
       </article>
     </AuthCheck>
   );
 };
 
 export default HomePage;
+
+function FormShortenUrl() {
+  const [_, startTransition] = useTransition();
+
+  const [UrlToShorten, setUrlToShorten] = useState("");
+  const [BadUrl, setBadUrl] = useState(false);
+
+  const InputElement = useRef<HTMLInputElement>();
+
+  useEffect(() => {
+    InputElement.current?.focus();
+  }, []);
+
+  const ShortenUrl = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    const SecureUrl = encodeURI(UrlToShorten?.trim() || "");
+    if (SecureUrl.length < 8 || SecureUrl.length > 1000 || !IsURL(SecureUrl))
+      return toast.error("Invalid URL");
+  };
+
+  const HandleChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const _Url = evt?.target?.value || "";
+    setUrlToShorten(_Url);
+    startTransition(() => {
+      const isValidUrl = IsURL(_Url);
+      setBadUrl(!isValidUrl);
+    });
+  };
+
+  return (
+    <div className="mt-5 flex h-36 w-screen flex-col items-center justify-center">
+      <h1 className="text-3xl font-semibold tracking-wider text-main-800">
+        Paste your URL to be shortened:
+      </h1>
+      <form
+        onSubmit={ShortenUrl}
+        className="mt-3 grid h-full w-1/2 grid-cols-6 place-content-center gap-x-2 gap-y-1 rounded-md p-5 ring-2 ring-black"
+      >
+        <input
+          type="text"
+          ref={InputElement}
+          value={UrlToShorten}
+          onChange={HandleChange}
+          placeholder="https://www.verylongurl.com/verylonguri"
+          className="col-span-4 h-10 rounded bg-main-700 bg-opacity-80 p-2 text-main-50 
+          outline-none transition-all focus:ring-2 focus:ring-amber-400"
+        />
+        <button
+          type="submit"
+          disabled={BadUrl}
+          className={`col-span-2 h-10 rounded-md bg-main-500 p-2 outline-none transition-all hover:bg-main-400 focus:ring-2 
+          focus:ring-amber-400${BadUrl ? " opacity-60" : ""}`}
+        >
+          <FaCompressAlt className="icon" /> Shorten URL
+        </button>
+        <style jsx>
+          {`
+            input::placeholder {
+              color: #ddd;
+            }
+          `}
+        </style>{" "}
+        {BadUrl && (
+          <p className="col-span-6 text-center font-semibold text-red-500">
+            <AiFillWarning className="icon" /> Invalid Url
+          </p>
+        )}
+      </form>
+    </div>
+  );
+}

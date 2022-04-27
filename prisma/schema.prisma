@@ -15,9 +15,10 @@ model Urls {
   url      String
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
-  authorId String
+  userId   String
 
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {

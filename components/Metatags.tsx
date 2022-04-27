@@ -8,8 +8,8 @@ interface Props {
 }
 
 const MetaTags: FC<Props> = ({
-  title = "Iluri::Url flattener",
-  description = "Shorten your url",
+  title = "Iluri",
+  description = "URL Flattener/Shortener/Protecter",
 }) => (
   <Head>
     <title>{title}</title>

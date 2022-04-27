@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 const ApiRoute = (req: NextApiRequest, res: NextApiResponse) => {
-  res.status(200).json({ name: "API ROUTE" });
+  try {
+  } catch (err) {}
 };
+
 export default ApiRoute;
