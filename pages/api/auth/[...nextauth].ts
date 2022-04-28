@@ -17,11 +17,13 @@ const options: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   // callbacks: {
   //   async jwt({ token, account }) {
+  //     console.log(account);
   //     if (account) token.userId = account.userId;
   //     return token;
   //   },
   //   async session({ session, token, user }) {
-  //     session.userId = token.userId;
+  //     console.log(token);
+  //     if (token) session.userId = token.userId;
   //     return session;
   //   },
   // },

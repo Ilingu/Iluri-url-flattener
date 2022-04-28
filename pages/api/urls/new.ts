@@ -34,7 +34,9 @@ const APINewShortedURL = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
   try {
-    const { success: AuthSuccess, data: session } = await Authentificate(req);
+    const { success: AuthSuccess, data: session } = await Authentificate({
+      req,
+    });
     if (!AuthSuccess)
       return AnswerToReq(res, { success: false, data: "User Not Connected" }); // ❌
 

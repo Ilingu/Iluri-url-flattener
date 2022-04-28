@@ -1,6 +1,14 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { Urls } from "@prisma/client";
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+  PreviewData,
+} from "next";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
+import { ParsedUrlQuery } from "querystring";
+import prisma from "../prisma";
 import {
   AnswerToReqArgsShape,
   APIResponse,
@@ -8,21 +16,62 @@ import {
 } from "./types/interfaces";
 
 /**
+ * @returns 404's Page
+ */
+export const Return404 = (): { notFound: true } => ({
+  notFound: true,
+});
+
+interface AuthenticateArgsParams {
+  req?: NextApiRequest;
+  ctx?: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>;
+}
+/**
  * Check If the request comes from an authentificate user
  * @param {NextApiRequest} req
  * @returns {FunctionJobSuccess} `{success: true}` -- if it's an authentificate user
  */
-export const Authentificate = async (
-  req: NextApiRequest
-): Promise<FunctionJobSuccess<string | Session>> => {
+export const Authentificate = async ({
+  req,
+  ctx,
+}: AuthenticateArgsParams): Promise<FunctionJobSuccess<Session | string>> => {
   try {
-    const session = await getSession({ req });
+    const session = await getSession({ req, ctx });
     return {
       success: !!session,
       data: session,
     };
   } catch (err) {
     return { success: false, data: "Cannot Authenticate User/Catch" };
+  }
+};
+
+/**
+ * Check If the logged user is the owner of the ShortenedUrl
+ * @param {Session} session
+ * @param {string} UrlID
+ * @returns {boolean} `true` -- if thus user is the owner of this ShortenedUrl
+ */
+export const IsUrlOwner = async (
+  session: Session,
+  UrlID: string
+): Promise<boolean> => {
+  try {
+    const UserEmail = session?.user?.email;
+    if (!UserEmail) return false;
+
+    const { id: UserID } = await prisma.user.findUnique({
+      where: { email: UserEmail },
+    });
+    if (!UserID) return false;
+
+    const { userId: UrlAuthor } = await prisma.urls.findUnique({
+      where: { id: UrlID },
+    });
+    if (UserID !== UrlAuthor) return false;
+    return true;
+  } catch (err) {
+    return false;
   }
 };
 
@@ -74,4 +123,28 @@ export const AnswerToReq = (
   if (code) CodeToSend = code;
   if (success && !code) CodeToSend = 200;
   return res.status(CodeToSend).json(ResponseObj);
+};
+
+/**
+ * Get all Urls created by a user
+ * @param {string} email the email of the user
+ * @returns {Urls[]} All Urls created by this user
+ */
+export const GetAllUserURL = async (
+  email: string
+): Promise<FunctionJobSuccess<Urls[]>> => {
+  try {
+    const User = await prisma.user.findUnique({ where: { email } });
+    if (!User) return { success: false };
+
+    const UserUrls = await prisma.urls.findMany({
+      where: { userId: User.id },
+      include: { user: { select: { name: true } } },
+    });
+    if (!UserUrls) return { success: false };
+    return { success: true, data: UserUrls };
+  } catch (err) {
+    console.error(err);
+    return { success: false };
+  }
 };

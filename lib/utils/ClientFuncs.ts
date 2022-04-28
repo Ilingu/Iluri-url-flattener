@@ -2,13 +2,6 @@ import { ApiCallArgsShape, APIResponse } from "./types/interfaces";
 import { IsURL } from "./UtilsFunc";
 
 /**
- * @returns 404's Page
- */
-export const Return404 = (): { notFound: true } => ({
-  notFound: true,
-});
-
-/**
  * Handle API fetch
  * @param
  * @returns 404's Page
