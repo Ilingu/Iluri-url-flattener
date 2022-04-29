@@ -2,7 +2,7 @@
 
 #### **Iluri is my personal Url Shortener because all the others either pricey or non persistent**
 
-#### _Feel free to use it, this project cost 0 pennies_ 💰
+#### _Feel free to use it, this project cost me 0 pennies to host_ 💰
 
 [![SITE](https://forthebadge.com/images/badges/check-it-out.svg)](https://iluri.vercel.app)
 

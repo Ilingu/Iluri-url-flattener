@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import prisma from "../../lib/prisma";
-import { Return404 } from "../../lib/utils/ClientFuncs";
+import { Return404 } from "../../lib/utils/ServerFuncs";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const {

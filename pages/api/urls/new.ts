@@ -2,11 +2,19 @@ import { randomUUID } from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
 import prisma from "../../../lib/prisma";
-import { AnswerToReq, Authentificate } from "../../../lib/utils/ServerFuncs";
-import { IsURL } from "../../../lib/utils/UtilsFunc";
+import {
+  AnswerToReq,
+  Authentificate,
+  CheckUrl,
+} from "../../../lib/utils/ServerFuncs";
+import { ReturnFormattedUrl } from "../../../lib/utils/UtilsFunc";
 
 const APINewShortedURL = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { method, body } = req;
+  const {
+    method,
+    body,
+    headers: { host },
+  } = req;
 
   if (method !== "POST")
     return AnswerToReq(res, {
@@ -23,14 +31,15 @@ const APINewShortedURL = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
   const URLToShorten = encodeURI((JSONBody["url"] as string).trim());
-  if (
-    URLToShorten.length < 8 ||
-    URLToShorten.length > 1000 ||
-    !IsURL(URLToShorten)
-  )
+  if (!CheckUrl(URLToShorten))
     return AnswerToReq(res, {
       success: false,
       data: "Invalid Url", // ❌
+    });
+  if (ReturnFormattedUrl(URLToShorten).host === host)
+    return AnswerToReq(res, {
+      success: false,
+      data: "Url Cannot be the same than the website url you're in.", // ❌
     });
 
   try {

@@ -4,13 +4,21 @@ import prisma from "../../../lib/prisma";
 import {
   AnswerToReq,
   Authentificate,
+  CheckUrl,
   GetAllUserURL,
   IsUrlOwner,
 } from "../../../lib/utils/ServerFuncs";
-import { FormatDataToJSON, IsURL } from "../../../lib/utils/UtilsFunc";
+import {
+  FormatDataToJSON,
+  ReturnFormattedUrl,
+} from "../../../lib/utils/UtilsFunc";
 
 const APIEditShortedURL = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { method, body } = req;
+  const {
+    method,
+    body,
+    headers: { host },
+  } = req;
 
   if (method !== "PUT")
     return AnswerToReq(res, {
@@ -28,10 +36,15 @@ const APIEditShortedURL = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const UrlToEditID = (JSONBody["UrlID"] as string).trim();
   const NewUrlLink = encodeURI(JSONBody["NewUrlLink"] as string).trim();
-  if (NewUrlLink.length < 8 || NewUrlLink.length > 1000 || !IsURL(NewUrlLink))
+  if (!CheckUrl(NewUrlLink))
     return AnswerToReq(res, {
       success: false,
       data: "Invalid Url", // ❌
+    });
+  if (ReturnFormattedUrl(NewUrlLink).host === host)
+    return AnswerToReq(res, {
+      success: false,
+      data: "Url Cannot be the same than the website url you're in.", // ❌
     });
 
   try {

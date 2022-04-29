@@ -14,6 +14,7 @@ import {
   APIResponse,
   FunctionJobSuccess,
 } from "./types/interfaces";
+import { IsURL } from "./UtilsFunc";
 
 /**
  * @returns 404's Page
@@ -21,6 +22,17 @@ import {
 export const Return404 = (): { notFound: true } => ({
   notFound: true,
 });
+
+/**
+ * Check If it's a valid DB URL
+ * @param {string} urlToCheck
+ * @returns {boolean} `true` -- if the check succeed
+ */
+export const CheckUrl = (urlToCheck: string): boolean => {
+  if (urlToCheck.length < 8 || urlToCheck.length > 1000 || !IsURL(urlToCheck))
+    return false;
+  return true;
+};
 
 interface AuthenticateArgsParams {
   req?: NextApiRequest;
