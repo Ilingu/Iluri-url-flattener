@@ -67,6 +67,20 @@ const AccountPage: NextPage<SSRProps> = ({ UserUrlsSSR }) => {
     setNewUserUrls(RefreshedUserUrl);
   }, []);
 
+  const DeleteAccount = async () => {
+    const DeleteResponse = await ApiCall({
+      uri: "/api/user/delete",
+      method: "DELETE",
+    });
+
+    if (!DeleteResponse.succeed || !DeleteResponse?.data)
+      return toast.error("Couldn't reach server, cannot delete this account.");
+    toast.success("Your account is now deleted");
+    history.pushState("", "", "/login");
+    localStorage.clear();
+    window.location.reload();
+  };
+
   useEffect(() => {
     if (!UserUrls || UserUrls.length <= 0) return;
     const JSXElements = UserUrls.map((UrlData) => (
@@ -95,8 +109,8 @@ const AccountPage: NextPage<SSRProps> = ({ UserUrlsSSR }) => {
             <p
               className="cursor-pointer leading-5 text-main-800 transition-all hover:text-red-500 hover:underline
              hover:decoration-red-500"
-              title="Double Click"
-              onDoubleClick={() => null}
+              title="Double Click -- Delete All your information (urls and account) from the DB. Note that this won't revoke the oauth with github."
+              onDoubleClick={() => DeleteAccount()}
             >
               <FaTrashAlt className="icon" /> Delete Account
             </p>

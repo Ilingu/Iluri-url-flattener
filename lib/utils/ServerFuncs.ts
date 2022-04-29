@@ -59,6 +59,29 @@ export const Authentificate = async ({
 };
 
 /**
+ * Return the User Id of the current logged user
+ * @param {Session} session
+ * @returns {FunctionJobSuccess} the `data` field is the userID, if found one
+ */
+export const GetUserID = async (
+  session: Session
+): Promise<FunctionJobSuccess<string>> => {
+  try {
+    const UserEmail = session?.user?.email;
+    if (!UserEmail) return { success: false, data: "No Email" };
+
+    const { id: UserID } = await prisma.user.findUnique({
+      where: { email: UserEmail },
+    });
+    if (!UserID) return { success: false, data: "No User ID" };
+
+    return { success: true, data: UserID };
+  } catch (error) {
+    return { success: false };
+  }
+};
+
+/**
  * Check If the logged user is the owner of the ShortenedUrl
  * @param {Session} session
  * @param {string} UrlID
@@ -69,13 +92,8 @@ export const IsUrlOwner = async (
   UrlID: string
 ): Promise<boolean> => {
   try {
-    const UserEmail = session?.user?.email;
-    if (!UserEmail) return false;
-
-    const { id: UserID } = await prisma.user.findUnique({
-      where: { email: UserEmail },
-    });
-    if (!UserID) return false;
+    const { success, data: UserID } = await GetUserID(session);
+    if (!success || !UserID) return false;
 
     const { userId: UrlAuthor } = await prisma.urls.findUnique({
       where: { id: UrlID },
