@@ -1,7 +1,7 @@
 {
   "name": "iluri",
   "private": true,
-  "version": "1.0.1-beta",
+  "version": "1.0.0-rc.1",
   "description": "Basic Url Shortener",
   "keywords": [
     "Iluri",

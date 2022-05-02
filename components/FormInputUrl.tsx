@@ -71,10 +71,11 @@ const FormUrlShortener: FC<Props> = ({ method, baseUrl, EditUrlID }) => {
       className="mt-3 grid h-full w-1/2 grid-cols-6 place-content-center gap-x-2 gap-y-1 rounded-md p-5 ring-2 ring-black"
     >
       <input
-        type="text"
+        type="url"
         ref={InputElement}
         value={UrlToShorten}
         onChange={HandleChange}
+        required
         placeholder="https://www.verylongurl.com/verylonguri"
         className="col-span-4 h-10 rounded bg-main-700 bg-opacity-80 p-2 text-main-50 
           outline-none transition-all focus:ring-2 focus:ring-amber-400"
